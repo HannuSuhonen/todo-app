@@ -8,7 +8,7 @@ export function createTodo(title,description,dueDate) {
     addTodo(this);
 }
 
-function getTodos() {
+export function getTodos() {
     const todos = localStorage.getItem(TODOKEY);
     return todos ? JSON.parse(todos) : [];
 }
@@ -20,5 +20,13 @@ function saveTodos(todos){
 function addTodo(todo){
     const todos = getTodos();
     todos.push(todo);
+    saveTodos(todos);
+}
+
+export function deleteTodo(index){
+    let todos = getTodos();
+    if (index > -1) {
+        todos.splice(index, 1); 
+    }
     saveTodos(todos);
 }
