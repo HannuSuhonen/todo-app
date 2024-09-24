@@ -1,37 +1,24 @@
-export function createTodoModal() {
-    let modal = document.createElement("div")
-    let todoObj = {}
-    modal.classList.add("modal")
-    let content = document.createElement("div")
-    content.classList.add("modal-content")
+const TODOKEY = "todos";
 
-    let titleinput = document.createElement("input")
-    titleinput.type = "text"
-    titleinput.placeholder = "Title"
-    content.appendChild(titleinput)
+export function createTodo(title,description,dueDate) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
 
-    let descinput = document.createElement("input")
-    descinput.type = "text"
-    descinput.placeholder = "Description"
+    addTodo(this);
+}
 
-    content.appendChild(descinput)
+function getTodos() {
+    const todos = localStorage.getItem(TODOKEY);
+    return todos ? JSON.parse(todos) : [];
+}
 
-    let dateInput = document.createElement("input")
-    dateInput.type = "date"
-    content.appendChild(dateInput)
+function saveTodos(todos){
+    localStorage.setItem(TODOKEY,JSON.stringify(todos));
+}
 
-    let addbutton = document.createElement("button")
-    addbutton.textContent = "Add"
-    addbutton.addEventListener("click", () => {
-        todoObj.title = titleinput.value;
-        todoObj.descinput = descinput.value;
-
-        localStorage.setItem(titleinput.placeholder,JSON.stringify(todoObj))
-        modal.style.display = "none"
-    })
-    content.appendChild(addbutton)
-
-    modal.appendChild(content)
-
-    return modal
+function addTodo(todo){
+    const todos = getTodos();
+    todos.push(todo);
+    saveTodos(todos);
 }

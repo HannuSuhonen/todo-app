@@ -1,13 +1,11 @@
 import "./styles.css"
-import { createTodoModal } from "./createTodo"
+import { createTodo } from "./createTodo"
 
-const container = document.getElementById("content")
-let addTodoItembtn = document.createElement("button")
-addTodoItembtn.textContent = "add item"
-container.appendChild(addTodoItembtn)
+let content = document.getElementById("content");
+let btn = document.createElement("button");
+content.appendChild(btn);
+btn.textContent = "add";
 
-addTodoItembtn.addEventListener("click", () => {
-    let modal = createTodoModal()
-    container.appendChild(modal)
-    modal.style.display = "block"
+btn.addEventListener("click", () => {
+    let test = new createTodo("test","desc","today");
 })
