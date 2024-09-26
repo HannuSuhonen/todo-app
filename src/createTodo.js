@@ -15,3 +15,5 @@ export function getTodoItems(projectName = "default"){
 export function deleteTodoItem(projectName,index){
     return deleteItem(projectName,index)
 }
+
+

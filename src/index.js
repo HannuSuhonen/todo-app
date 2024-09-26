@@ -22,27 +22,36 @@ btn.textContent = "add";
 
 btn.addEventListener("click", () => {
     new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
-    loadTodos();
+    // loadTodos();
+    displayAllProjectsAndTodos();
 })
 
-function loadTodos(){
-    let todos = getTodoItems();
-    todolist.innerHTML = "";
-    todos.forEach((todoObj,index) => {
-        const { title, description, dueDate } = todoObj;
-        let li = document.createElement("li");
-        li.textContent = `${title} ${description} ${dueDate}`;
-        let deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "delete";
-        li.append(deleteBtn);
-        deleteBtn.addEventListener("click", () => {
-            deleteTodoItem("default",index)
-            loadTodos();
-        })
-        todolist.appendChild(li);
+export function displayAllProjectsAndTodos() {
+    const projectKeys = Object.keys(localStorage);
+
+    projectKeys.forEach(projectName => {
+        let title = document.createElement("h2");
+        title.textContent = projectName
+        const todos = getTodoItems(projectName); // Get todos for each project
+
+        console.log(`Project: ${projectName}`); // Display the project name
+
+        if (todos.length === 0) {
+            console.log("  No todos for this project.");
+        } else {
+            let todosListIng = document.createElement("ul");
+            todos.forEach((todo, index) => {
+                console.log(`  ${index + 1}. ${todo.title} - ${todo.description}`);
+                let todoItem = document.createElement("li");
+                todoItem.textContent = todo.title;
+                todosListIng.appendChild(todoItem);
+            });
+            title.appendChild(todosListIng);
+        }
+        content.appendChild(title);
     });
-    content.appendChild(todolist);
 }
 
-loadTodos();
+displayAllProjectsAndTodos();
+// loadTodos();
 
