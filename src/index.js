@@ -1,5 +1,5 @@
 import "./styles.css"
-import { createTodo, getTodos, deleteTodo } from "./createTodo"
+import { createTodo, getTodoItems, deleteTodoItem } from "./createTodo"
 
 let content = document.getElementById("content");
 let btn = document.createElement("button");
@@ -24,7 +24,7 @@ btn.addEventListener("click", () => {
 })
 
 function loadTodos(){
-    let todos = getTodos();
+    let todos = getTodoItems();
     todolist.innerHTML = "";
     todos.forEach((todoObj,index) => {
         const { title, description, dueDate } = todoObj;
@@ -34,7 +34,7 @@ function loadTodos(){
         deleteBtn.textContent = "delete";
         li.append(deleteBtn);
         deleteBtn.addEventListener("click", () => {
-            deleteTodo(index);
+            deleteTodoItem(index)
             loadTodos();
         })
         todolist.appendChild(li);

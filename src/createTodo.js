@@ -1,3 +1,5 @@
+import { addItems,getItems,deleteItem } from "./saver";
+
 const TODOKEY = "todos";
 
 export function createTodo(title,description,dueDate) {
@@ -5,28 +7,13 @@ export function createTodo(title,description,dueDate) {
     this.description = description;
     this.dueDate = dueDate;
 
-    addTodo(this);
+    addItems(TODOKEY,this);
 }
 
-export function getTodos() {
-    const todos = localStorage.getItem(TODOKEY);
-    return todos ? JSON.parse(todos) : [];
+export function getTodoItems(){
+    return getItems(TODOKEY);
 }
 
-function saveTodos(todos){
-    localStorage.setItem(TODOKEY,JSON.stringify(todos));
-}
-
-function addTodo(todo){
-    const todos = getTodos();
-    todos.push(todo);
-    saveTodos(todos);
-}
-
-export function deleteTodo(index){
-    let todos = getTodos();
-    if (index > -1) {
-        todos.splice(index, 1); 
-    }
-    saveTodos(todos);
+export function deleteTodoItem(index){
+    return deleteItem(TODOKEY,index)
 }
