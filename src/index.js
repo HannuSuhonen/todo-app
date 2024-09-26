@@ -7,19 +7,21 @@ let todolist = document.createElement("ul");
 let titleInput = document.createElement("input");
 let descInput = document.createElement("input");
 let datepicker = document.createElement("input");
+let projectInput = document.createElement("input");
+
 datepicker.type = "date";
 titleInput.value = "Hello";
 descInput.value = "Hello";
+projectInput.placeholder = "project name"
 content.appendChild(titleInput);
 content.appendChild(descInput);
+content.appendChild(projectInput);
 content.appendChild(datepicker);
 content.appendChild(btn);
 btn.textContent = "add";
 
-
-
 btn.addEventListener("click", () => {
-    new createTodo(titleInput.value,descInput.value,datepicker.value);
+    new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
     loadTodos();
 })
 
@@ -34,7 +36,7 @@ function loadTodos(){
         deleteBtn.textContent = "delete";
         li.append(deleteBtn);
         deleteBtn.addEventListener("click", () => {
-            deleteTodoItem(index)
+            deleteTodoItem("default",index)
             loadTodos();
         })
         todolist.appendChild(li);

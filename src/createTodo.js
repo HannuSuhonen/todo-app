@@ -1,19 +1,17 @@
 import { addItems,getItems,deleteItem } from "./saver";
 
-const TODOKEY = "todos";
-
-export function createTodo(title,description,dueDate) {
+export function createTodo(title,description,dueDate, projectName) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
 
-    addItems(TODOKEY,this);
+    addItems(projectName === null || projectName === "" ? "default" : projectName,this);
 }
 
-export function getTodoItems(){
-    return getItems(TODOKEY);
+export function getTodoItems(projectName = "default"){
+    return getItems(projectName);
 }
 
-export function deleteTodoItem(index){
-    return deleteItem(TODOKEY,index)
+export function deleteTodoItem(projectName,index){
+    return deleteItem(projectName,index)
 }
