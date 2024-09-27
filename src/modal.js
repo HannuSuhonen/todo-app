@@ -1,3 +1,6 @@
+import { createTodo } from "./createTodo";
+import PubSub from "pubsub-js";
+
 export function generateModal(){
     let modal = document.createElement("div");
     let modalContent = document.createElement("div");
@@ -24,13 +27,15 @@ export function generateModal(){
     modal.appendChild(modalContent);
 
     closeButton.onclick = () => {
+        new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
         modal.style.display = "none";
+
+        PubSub.publish("todo-created");
     }
 
     return modal;
 }
 
-    // new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
     // let container = displayAllProjectsAndTodos();
     // listContainer.innerHTML = "";
     // listContainer.appendChild(container);
