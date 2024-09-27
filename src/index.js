@@ -1,33 +1,24 @@
 import "./styles.css"
 import { createTodo, getTodoItems, deleteTodoItem } from "./createTodo"
+import { generateModal } from "./modal";
 
-let content = document.getElementById("content");
 let btn = document.createElement("button");
-let todolist = document.createElement("ul");
-let titleInput = document.createElement("input");
-let descInput = document.createElement("input");
-let datepicker = document.createElement("input");
-let projectInput = document.createElement("input");
-
-datepicker.type = "date";
-titleInput.value = "Hello";
-descInput.value = "Hello";
-projectInput.placeholder = "project name"
-content.appendChild(titleInput);
-content.appendChild(descInput);
-content.appendChild(projectInput);
-content.appendChild(datepicker);
-content.appendChild(btn);
 btn.textContent = "add";
+content.appendChild(btn);
+
+let listContainer = document.createElement("div");
+content.appendChild(listContainer);
 
 btn.addEventListener("click", () => {
-    new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
-    // loadTodos();
-    displayAllProjectsAndTodos();
+
+    let modal = generateModal();
+    content.appendChild(modal);
+    modal.style.display = "block"
 })
 
 export function displayAllProjectsAndTodos() {
     const projectKeys = Object.keys(localStorage);
+    const container = document.createElement("div");
 
     projectKeys.forEach(projectName => {
         let title = document.createElement("h2");
@@ -48,10 +39,11 @@ export function displayAllProjectsAndTodos() {
             });
             title.appendChild(todosListIng);
         }
-        content.appendChild(title);
+        container.appendChild(title);
     });
+    return container;
 }
 
-displayAllProjectsAndTodos();
+content.append(displayAllProjectsAndTodos());
 // loadTodos();
 
