@@ -1,3 +1,5 @@
+const DEFAULTPROJECTNAME = "default";
+
 // 1. Retrieve projects from localStorage (or initialize an empty array)
 export function getProjects() {
     const projects = localStorage.getItem('projects');
@@ -34,10 +36,12 @@ function createProject(projectName = "Default Project") {
 // createTodo function (calls createProject if needed)
 export function createTodo(title, description, dueDate, projectName) {
     const projects = getProjects();
+    projectName = projectName === "" || projectName === null ? DEFAULTPROJECTNAME : projectName;
 
     // Check if the project exists, if not, create one
     let project = projects.find(p => p.name === projectName);
     if (!project) {
+        console.log("this runs");
         project = createProject(projectName);  // Creates or retrieves the project
         projects.push(project);
     }

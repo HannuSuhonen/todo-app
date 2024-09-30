@@ -18,28 +18,23 @@ btn.addEventListener("click", () => {
 })
 
 PubSub.subscribe("todo-created", () => {
-    displayProjectsAndTodos();
+    content.appendChild(displayProjectsAndTodos());
 })
 
 function displayProjectsAndTodos(){
     let projects = getProjects();
     projects.forEach(project => {
-        let projectName = project.name;
-        let todos = project.todos;
+        let title = document.createElement("h2");
+        let list = document.createElement("ul");
 
-        let projectTitle = document.createElement("h2");
-        projectTitle.textContent = projectName;
-        content.appendChild(projectTitle);
-
-        todos.forEach(todoObj => {
-            let list = document.createElement("ul");
+        project.todos.forEach(todoObj => {
             let item = document.createElement("li");
-            const { title } = todoObj;
-            item.textContent = title;
-            
+            item.textContent = todoObj.title;
             list.appendChild(item);
-            projectTitle.appendChild(list);
         });
 
+        title.textContent = project.name;
+        title.appendChild(list);
+        content.appendChild(title);
     });
 }
