@@ -7,9 +7,6 @@ let btn = document.createElement("button");
 btn.textContent = "add";
 content.appendChild(btn);
 
-let todoContainer = document.createElement("div");
-content.appendChild(todoContainer);
-
 let modal = generateModal();
 content.appendChild(modal);
 
@@ -18,10 +15,19 @@ btn.addEventListener("click", () => {
 })
 
 PubSub.subscribe("todo-created", () => {
-    content.appendChild(displayProjectsAndTodos());
+    displayProjectsAndTodos();
 })
 
 function displayProjectsAndTodos(){
+    let displayDiv = document.querySelector(".display");
+    if (displayDiv) {
+        displayDiv.innerHTML = "";
+    } else {
+        displayDiv = document.createElement("div");
+        displayDiv.classList.add("display");
+        content.appendChild(displayDiv);
+    }
+
     let projects = getProjects();
     projects.forEach(project => {
         let title = document.createElement("h2");
@@ -35,6 +41,6 @@ function displayProjectsAndTodos(){
 
         title.textContent = project.name;
         title.appendChild(list);
-        content.appendChild(title);
+        displayDiv.appendChild(title);
     });
 }
