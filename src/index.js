@@ -1,6 +1,6 @@
 import "./styles.css"
 import PubSub from "pubsub-js";
-import { getProjects } from "./createTodo"
+import { getProjects,deleteTodoItem ,deleteProject} from "./createTodo"
 import { generateModal } from "./modal";
 
 let btn = document.createElement("button");
@@ -29,18 +29,38 @@ function displayProjectsAndTodos(){
     }
 
     let projects = getProjects();
-    projects.forEach(project => {
-        let title = document.createElement("h2");
-        let list = document.createElement("ul");
 
-        project.todos.forEach(todoObj => {
+    // reverse array for display
+    projects.forEach((project, index) => {
+        let title = document.createElement("h2");
+        let btn = document.createElement("button");
+        let list = document.createElement("ul");
+        let projectName = project.name;
+
+        btn.textContent = "delete"
+        btn.onclick = () => {
+            deleteProject(index);
+            displayProjectsAndTodos();
+        }
+
+        project.todos.forEach((todoObj,index) => {
             let item = document.createElement("li");
+            let btn = document.createElement("button");
+            btn.textContent = "delete";
+            btn.onclick = () => {
+                deleteTodoItem(projectName,index);
+                displayProjectsAndTodos();
+            } 
             item.textContent = todoObj.title;
+            item.appendChild(btn);
             list.appendChild(item);
         });
 
-        title.textContent = project.name;
+        title.textContent = projectName;
+        title.appendChild(btn);
         title.appendChild(list);
         displayDiv.appendChild(title);
     });
 }
+
+displayProjectsAndTodos();

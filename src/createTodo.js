@@ -41,7 +41,6 @@ export function createTodo(title, description, dueDate, projectName) {
     // Check if the project exists, if not, create one
     let project = projects.find(p => p.name === projectName);
     if (!project) {
-        console.log("this runs");
         project = createProject(projectName);  // Creates or retrieves the project
         projects.push(project);
     }
@@ -84,6 +83,27 @@ export function createTodo(title, description, dueDate, projectName) {
 //     return getItems(projectName);
 // }
 
-// export function deleteTodoItem(projectName,index){
-//     return deleteItem(projectName,index)
-// }
+export function deleteTodoItem(projectName,index){
+    const projects = getProjects();
+
+    const currentProject = projects.find(p => p.name === projectName);
+    if (index > -1) {
+        currentProject.todos.splice(index, 1);
+    }
+
+    if(currentProject.todos.length === 0){
+        const currentProjectIndex =  projects.findIndex(p => p.name === projectName)
+        console.log(currentProjectIndex);
+        deleteProject(0);
+        return;
+    }
+    saveProjects(projects);
+}
+
+export function deleteProject(index){
+    const projects = getProjects();
+    if (index > -1) {
+        projects.splice(index, 1);
+    }
+    saveProjects(projects);
+}
