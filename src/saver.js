@@ -1,10 +1,20 @@
+const orderKey = "order";
+
 export function getItems(key) {
     const values = localStorage.getItem(key);
     return values ? JSON.parse(values) : [];
 }
 
-export function saveItems(key,values){
+function saveItems(key,values){
     localStorage.setItem(key,JSON.stringify(values));
+
+    let order = JSON.parse(localStorage.getItem(orderKey)) || [];
+    order.push(key);
+    localStorage.setItem(orderKey, JSON.stringify(order));
+
+}
+function getKeysInOrder() {
+    return JSON.parse(localStorage.getItem(orderKey)) || [];
 }
 
 export function addItems(key,value){
