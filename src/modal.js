@@ -9,6 +9,7 @@ export function generateModal(){
     let datepicker = document.createElement("input");
     let projectInput = document.createElement("input");
     let closeButton = document.createElement("button");
+    closeButton.classList.add("closeBtn");
 
     datepicker.type = "date";
     titleInput.value = "Hello";
@@ -26,12 +27,13 @@ export function generateModal(){
     modalContent.classList.add("modal-content");
     modal.appendChild(modalContent);
 
-    closeButton.onclick = () => {
+    closeButton.addEventListener("click", () => {
         new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
-        modal.style.display = "none";
+        console.log("create todo");
+        // modal.style.display = "none";
 
         PubSub.publish("todo-created");
-    }
+    });
 
     return modal;
 }

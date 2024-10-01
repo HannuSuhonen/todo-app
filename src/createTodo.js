@@ -35,6 +35,7 @@ function createProject(projectName = "Default Project") {
 
 // createTodo function (calls createProject if needed)
 export function createTodo(title, description, dueDate, projectName) {
+    console.log("create todo");
     const projects = getProjects();
     projectName = projectName === "" || projectName === null ? DEFAULTPROJECTNAME : projectName;
 
@@ -57,6 +58,8 @@ export function createTodo(title, description, dueDate, projectName) {
 
     // Save the updated project list to localStorage
     saveProjects(projects);
+
+    PubSub.publish("todo-created",project);
 
     console.log(`Todo created under project "${project.name}".`);
 }
@@ -83,7 +86,7 @@ export function createTodo(title, description, dueDate, projectName) {
 //     return getItems(projectName);
 // }
 
-export function deleteTodoItem(projectName,index){
+export function deleteTodoItemFromProject(projectName,index){
     const projects = getProjects();
 
     const currentProject = projects.find(p => p.name === projectName);
@@ -93,8 +96,7 @@ export function deleteTodoItem(projectName,index){
 
     if(currentProject.todos.length === 0){
         const currentProjectIndex =  projects.findIndex(p => p.name === projectName)
-        console.log(currentProjectIndex);
-        deleteProject(0);
+        deleteProject(currentProjectIndex);
         return;
     }
     saveProjects(projects);

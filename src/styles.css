@@ -81,3 +81,20 @@
   justify-content: center;
   gap: 10px;
 }
+
+.modal.is-visible {
+  display: block;
+  opacity: 1;
+}
+
+#content{
+  display: flex;
+}
+
+#projects > div{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  /* flex-direction: column; */
+}
