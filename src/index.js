@@ -6,12 +6,21 @@ import { generateModal } from "./modal";
 function renderProjects() {
     const projectContainer = document.querySelector(".project-container");
     projectContainer.innerHTML = ""; // Clear previous content
-  
+
+    const projectsDiv = document.createElement("div");
+    projectsDiv.classList.add("projects");
+
+    const projectCardTitle = document.createElement("h2");
+    projectCardTitle.classList.add("projectcard-title");
+    projectCardTitle.textContent = "Projects"; // Title for default project
+    projectContainer.appendChild(projectCardTitle);
+
     const otherProjects = getOtherProjects();
     
     otherProjects.forEach((project,projectIndex) => {
       const projectCard = document.createElement("div");
       projectCard.classList.add("project-card");
+
       
       // Project Name
       const projectName = document.createElement("h3");
@@ -35,8 +44,9 @@ function renderProjects() {
       });
       
       projectCard.appendChild(todoList);
-      projectContainer.appendChild(projectCard);
+      projectsDiv.appendChild(projectCard);
     });
+    projectContainer.appendChild(projectsDiv);
 }
 
 
@@ -52,7 +62,7 @@ function renderMainCard() {
     mainCard.classList.add("main-card");
   
     // Title for main card
-    const mainCardTitle = document.createElement("h3");
+    const mainCardTitle = document.createElement("h2");
     mainCardTitle.textContent = "General Todos"; // Title for default project
     mainCard.appendChild(mainCardTitle);
     
@@ -87,8 +97,11 @@ function getOtherProjects() {
     return projects.filter(project => project.name !== "default");
 }
 
-let todoModal = generateModal(); 
-content.appendChild(todoModal);
+const todoModal = generateModal(); 
+function initModal(){
+  let container = document.querySelector(".grid-container");
+  container.appendChild(todoModal);
+}
 
 // Show modal
 function showModal() {
@@ -106,10 +119,17 @@ function addTodo() {
     addTodoBtn.onclick = showModal;
     let closebtn = todoModal.querySelector(".closeBtn");
     closebtn.addEventListener("click", () => {
-        console.log("close");
+        hideModal();
+        renderMainCard();
+        renderProjects();
     })
 }
 
-renderMainCard();
-renderProjects();
-addTodo();
+function init(){
+  renderMainCard();
+  renderProjects();
+  addTodo();
+  initModal();
+}
+
+init();

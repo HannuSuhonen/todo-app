@@ -32,7 +32,7 @@ export function generateModal(){
         console.log("create todo");
         // modal.style.display = "none";
 
-        PubSub.publish("todo-created");
+        // PubSub.publish("todo-created");
     });
 
     return modal;
