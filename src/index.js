@@ -3,6 +3,7 @@ import { getProjects,deleteTodoItemFromProject, createTodo } from "./createTodo"
 import { generateModal,showTodoDetails,showModal } from "./modal";
 
 function renderProjects() {
+  console.log("render projects")
     const projectContainer = document.querySelector(".project-container");
     projectContainer.innerHTML = ""; // Clear previous content
 
@@ -43,7 +44,12 @@ function renderProjects() {
         const infoButton = document.createElement("button");
         infoButton.textContent = "info";
         infoButton.onclick = () => {
-          showTodoDetails(todo);
+          showTodoDetails(todo, (updatedTodoData) => {
+            todo.title = updatedTodoData.title;
+            todo.description = updatedTodoData.description;
+            todo.dueDate = updatedTodoData.dueDate;
+            todo.projectName = updatedTodoData.projectName;
+          });
         };
         todoItem.appendChild(infoButton);
         todoList.appendChild(todoItem);
@@ -58,6 +64,7 @@ function renderProjects() {
 
 
 function renderMainCard() {
+  console.log("render main card")
     const mainCardContainer = document.querySelector(".main-card-container");
     mainCardContainer.innerHTML = ""; // Clear previous content
     
@@ -108,14 +115,19 @@ function getOtherProjects() {
 function addTodo() {
     const addTodoBtn = document.querySelector(".addTodoBtn");
     addTodoBtn.addEventListener("click", () => {
-      showModal();
+      showModal(newTodoData => {
+        new createTodo(newTodoData.title, newTodoData.description, newTodoData.dueDate, newTodoData.projectName); 
+        renderMainCard();
+        renderProjects();
+      });
     });
 }
 
 function onModalCloseCallBack(tododata){
   new createTodo(tododata.title,tododata.description,tododata.dueDate,tododata.projectName)
-  renderMainCard();
-  renderProjects();
+  // renderMainCard();
+  // renderProjects();
+  // console.log("modal close callback run")
 }
 
 function init(){

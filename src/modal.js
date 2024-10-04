@@ -56,12 +56,12 @@ export function generateModal(onCloseCallback){
     modalElement = modal;
 }
 
-export function showTodoDetails(todo){
+export function showTodoDetails(todo,onSaveCallback){
     modalElement.querySelector(".modal-title").value = todo.title;
     modalElement.querySelector(".modal-description").value = todo.description;
     modalElement.querySelector(".modal-duedate").value = todo.dueDate;
     modalElement.querySelector(".modal-project").value = todo.projectName === "undefined" || todo.projectName === null ? "": todo.projectName;
-    showModal();
+    showModal(onSaveCallback);
 }
 
 function clearModalFields(){
@@ -72,8 +72,35 @@ function clearModalFields(){
 }
 
 // Show modal
-export function showModal() {
+// export function showModal() {
+//     modalElement.classList.add("is-visible");
+// }
+
+// Modified showModal function
+export function showModal(onSaveCallback) {
+    // Make modal visible
     modalElement.classList.add("is-visible");
+
+    // Ensure previous event listeners are cleared before attaching a new one
+    const saveButton = modalElement.querySelector(".saveBtn");  // Assuming close button is also the save button
+
+    // Remove any previous click event listeners to avoid duplicating actions
+    const newSaveButton = saveButton.cloneNode(true);
+    saveButton.parentNode.replaceChild(newSaveButton, saveButton);
+
+    // Add the new callback to handle save or update
+    newSaveButton.addEventListener("click", () => {
+        if (typeof onSaveCallback === 'function') {
+            // Call the provided callback with modal's input data
+            onSaveCallback({
+                title: modalElement.querySelector(".modal-title").value,
+                description: modalElement.querySelector(".modal-description").value,
+                dueDate: modalElement.querySelector(".modal-duedate").value,
+                projectName: modalElement.querySelector(".modal-project").value,
+            });
+        }
+        hideModal(modalElement);  // Hide modal after saving/updating
+    });
 }
 
 // Hide modal
