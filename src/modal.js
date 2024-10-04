@@ -1,7 +1,7 @@
 import { createTodo } from "./createTodo";
-import PubSub from "pubsub-js";
 
-export function generateModal(){
+let modalElement;
+export function generateModal(onCloseCallback){
     let modal = document.createElement("div");
     let modalContent = document.createElement("div");
     let titleInput = document.createElement("input");
@@ -33,28 +33,45 @@ export function generateModal(){
     modal.appendChild(modalContent);
 
     closeButton.addEventListener("click", () => {
-        new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
+        if (typeof onCloseCallback === 'function') {
+            onCloseCallback({
+                title: titleInput.value,
+                description: descInput.value,
+                dueDate: datepicker.value,
+                projectName: projectInput.value
+            });
+        }
         hideModal(modal);
     });
 
-    return modal;
+    let container = document.querySelector(".grid-container");
+    container.appendChild(modal);
+
+    modalElement = modal;
 }
 
-export function showTodoDetails(todo,modal){
-    document.querySelector(".modal-title").value = todo.title;
-    document.querySelector(".modal-description").value = todo.description;
-    document.querySelector(".modal-duedate").value = todo.dueDate;
-    document.querySelector(".modal-project").value = todo.projectName === "undefined" || todo.projectName === null ? "": todo.projectName;
-    showModal(modal);
+export function showTodoDetails(todo){
+    clearModalFields();
+    modalElement.querySelector(".modal-title").value = todo.title;
+    modalElement.querySelector(".modal-description").value = todo.description;
+    modalElement.querySelector(".modal-duedate").value = todo.dueDate;
+    modalElement.querySelector(".modal-project").value = todo.projectName === "undefined" || todo.projectName === null ? "": todo.projectName;
+    showModal();
 }
 
+function clearModalFields(){
+    modalElement.querySelector(".modal-title").value = "";
+    modalElement.querySelector(".modal-description").value = "";
+    modalElement.querySelector(".modal-duedate").value = "";
+    modalElement.querySelector(".modal-project").value = "";
+}
 
 // Show modal
-export function showModal(modal) {
-    modal.classList.add("is-visible");
+export function showModal() {
+    modalElement.classList.add("is-visible");
 }
 
 // Hide modal
-export function hideModal(modal) {
-    modal.classList.remove("is-visible");
+export function hideModal() {
+    modalElement.classList.remove("is-visible");
 }

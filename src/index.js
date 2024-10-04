@@ -1,7 +1,6 @@
 import "./styles.css"
-import PubSub from "pubsub-js";
-import { getProjects,deleteTodoItemFromProject ,deleteProject} from "./createTodo"
-import { generateModal,showTodoDetails,showModal,hideModal } from "./modal";
+import { getProjects,deleteTodoItemFromProject, createTodo } from "./createTodo"
+import { generateModal,showTodoDetails,showModal } from "./modal";
 
 function renderProjects() {
     const projectContainer = document.querySelector(".project-container");
@@ -44,7 +43,7 @@ function renderProjects() {
         const infoButton = document.createElement("button");
         infoButton.textContent = "info";
         infoButton.onclick = () => {
-          showTodoDetails(todo,todoModal);
+          showTodoDetails(todo);
         };
         todoItem.appendChild(infoButton);
         todoList.appendChild(todoItem);
@@ -104,31 +103,26 @@ function getOtherProjects() {
     return projects.filter(project => project.name !== "default");
 }
 
-const todoModal = generateModal(); 
-function initModal(){
-  let container = document.querySelector(".grid-container");
-  container.appendChild(todoModal);
-}
-
 
 // Attach events
 function addTodo() {
     const addTodoBtn = document.querySelector(".addTodoBtn");
     addTodoBtn.addEventListener("click", () => {
-      showModal(todoModal);
+      showModal();
     });
-    let closebtn = todoModal.querySelector(".closeBtn");
-    closebtn.addEventListener("click", () => {
-        renderMainCard();
-        renderProjects();
-    })
+}
+
+function onModalCloseCallBack(tododata){
+  new createTodo(tododata.title,tododata.description,tododata.dueDate,tododata.projectName)
+  renderMainCard();
+  renderProjects();
 }
 
 function init(){
+  generateModal(onModalCloseCallBack); 
   renderMainCard();
   renderProjects();
   addTodo();
-  initModal();
 }
 
 init();

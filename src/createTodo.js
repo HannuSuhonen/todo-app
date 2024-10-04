@@ -60,32 +60,8 @@ export function createTodo(title, description, dueDate, projectName) {
     // Save the updated project list to localStorage
     saveProjects(projects);
 
-    PubSub.publish("todo-created",project);
-
     console.log(`Todo created under project "${project.name}".`);
 }
-
-// Example Usage:
-// createTodo("New Task", "This is a task", "2024-09-30", "Work Project");
-
-// 3. Create a new project and save it
-
-
-// Example Usage: Creating a new project called "Work Project"
-// createProject("Work Project");
-
-
-// export function createTodo(title,description,dueDate, projectName) {
-//     this.title = title;
-//     this.description = description;
-//     this.dueDate = dueDate;
-
-//     addItems(projectName === null || projectName === "" ? "default" : projectName,this);
-// }
-
-// export function getTodoItems(projectName = "default"){
-//     return getItems(projectName);
-// }
 
 export function deleteTodoItemFromProject(projectName,index){
     const projects = getProjects();
