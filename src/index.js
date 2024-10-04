@@ -1,7 +1,7 @@
 import "./styles.css"
 import PubSub from "pubsub-js";
 import { getProjects,deleteTodoItemFromProject ,deleteProject} from "./createTodo"
-import { generateModal } from "./modal";
+import { generateModal,showTodoDetails,showModal,hideModal } from "./modal";
 
 function renderProjects() {
     const projectContainer = document.querySelector(".project-container");
@@ -40,6 +40,13 @@ function renderProjects() {
           renderProjects();
         };
         todoItem.appendChild(deleteButton);
+
+        const infoButton = document.createElement("button");
+        infoButton.textContent = "info";
+        infoButton.onclick = () => {
+          showTodoDetails(todo,todoModal);
+        };
+        todoItem.appendChild(infoButton);
         todoList.appendChild(todoItem);
       });
       
@@ -103,23 +110,15 @@ function initModal(){
   container.appendChild(todoModal);
 }
 
-// Show modal
-function showModal() {
-    todoModal.classList.add("is-visible");
-}
-
-// Hide modal
-function hideModal() {
-    todoModal.classList.remove("is-visible");
-}
 
 // Attach events
 function addTodo() {
     const addTodoBtn = document.querySelector(".addTodoBtn");
-    addTodoBtn.onclick = showModal;
+    addTodoBtn.addEventListener("click", () => {
+      showModal(todoModal);
+    });
     let closebtn = todoModal.querySelector(".closeBtn");
     closebtn.addEventListener("click", () => {
-        hideModal();
         renderMainCard();
         renderProjects();
     })

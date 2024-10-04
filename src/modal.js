@@ -9,6 +9,11 @@ export function generateModal(){
     let datepicker = document.createElement("input");
     let projectInput = document.createElement("input");
     let closeButton = document.createElement("button");
+
+    titleInput.classList.add("modal-title");
+    descInput.classList.add("modal-description");
+    datepicker.classList.add("modal-duedate");
+    projectInput.classList.add("modal-project");
     closeButton.classList.add("closeBtn");
 
     datepicker.type = "date";
@@ -29,16 +34,27 @@ export function generateModal(){
 
     closeButton.addEventListener("click", () => {
         new createTodo(titleInput.value,descInput.value,datepicker.value,projectInput.value);
-        console.log("create todo");
-        // modal.style.display = "none";
-
-        // PubSub.publish("todo-created");
+        hideModal(modal);
     });
 
     return modal;
 }
 
-    // let container = displayAllProjectsAndTodos();
-    // listContainer.innerHTML = "";
-    // listContainer.appendChild(container);
-    // loadTodos();
+export function showTodoDetails(todo,modal){
+    document.querySelector(".modal-title").value = todo.title;
+    document.querySelector(".modal-description").value = todo.description;
+    document.querySelector(".modal-duedate").value = todo.dueDate;
+    document.querySelector(".modal-project").value = todo.projectName === "undefined" || todo.projectName === null ? "": todo.projectName;
+    showModal(modal);
+}
+
+
+// Show modal
+export function showModal(modal) {
+    modal.classList.add("is-visible");
+}
+
+// Hide modal
+export function hideModal(modal) {
+    modal.classList.remove("is-visible");
+}

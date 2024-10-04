@@ -50,7 +50,8 @@ export function createTodo(title, description, dueDate, projectName) {
     const newTodo = {
         title: title,
         description: description,
-        dueDate: dueDate
+        dueDate: dueDate,
+        projectName: projectName,
     };
 
     // Add the todo to the project’s todos array
