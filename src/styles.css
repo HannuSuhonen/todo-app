@@ -142,3 +142,7 @@
 .addTodoBtn{
   font-size: 50px;
 }
+
+.closeBtn2{
+  align-self: flex-end;
+}
