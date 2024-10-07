@@ -19,7 +19,9 @@ export function generateModal(onCloseCallback){
     datepicker.type = "date";
     titleInput.value = "Hello";
     descInput.value = "Hello";
-    projectInput.placeholder = "project name"
+    titleInput.placeholder = "Title"
+    descInput.placeholder = "Description"
+    projectInput.placeholder = "Project name"
     saveButton.textContent = "save";
     closeBtn.textContent = "X";
 

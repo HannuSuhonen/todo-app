@@ -93,6 +93,18 @@ function renderMainCard() {
       renderMainCard();
     };
     todoItem.appendChild(deleteButton);
+
+    const infoButton = document.createElement("button");
+    infoButton.textContent = "info";
+    infoButton.onclick = () => {
+      showTodoDetails(todo, (updatedTodoData) => {
+        todo.title = updatedTodoData.title;
+        todo.description = updatedTodoData.description;
+        todo.dueDate = updatedTodoData.dueDate;
+        todo.projectName = updatedTodoData.projectName;
+      });
+    };
+    todoItem.appendChild(infoButton);
     todoList.appendChild(todoItem);
     });
   
